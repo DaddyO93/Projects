@@ -1,0 +1,7 @@
+.body_background {
+    background-image: radial-gradient(#F8F9FA, #E9ECEF, #DEE2E6, #6C757D);
+}
+
+.horizontal_scroll {
+    overflow-x: auto;
+}
