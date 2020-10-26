@@ -1,0 +1,57 @@
+.background {
+    background-color: rgba(248, 249, 250, .4);
+}
+
+#portrait {
+    width: 200px;
+    height: auto;
+    clip: rect(0px, 0px, 20px, 0px);
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.text_color {
+    color: #212529;
+}
+
+.tech_logos {
+    width: 100px;
+    height: auto;
+}
+
+.tech_logos_1 {
+    width: 78px;
+    height: auto;
+}
+
+.tech_logos_2 {
+    width: 115px;
+    height: auto;
+}
+
+.tech_logos_3 {
+    width: 85px;
+    height: auto;
+}
+
+#skills {
+    height: 300px;
+}
+
+#contact {
+    width: 450px;
+}
+
+.proj_card {
+    background-color: #E9ECEF;
+    width: 240px;
+    box-shadow: 10px;
+}
+
+.row_body {
+    margin-top: -80px;
+}
+
+#more:hover {
+    text-decoration-line: underline;
+}
