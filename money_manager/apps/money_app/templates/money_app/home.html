@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Manager</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/money_app.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.toast').toast({
+                autohide: false
+            });
+            $('.toast').toast('show');
+        })
+    </script>
+
+</head>
+
+<body>
+    <div class="container-fluid min-vh-100 body_background">
+        <div class="container">
+
+            <nav class="navbar navbar-expand-lg navbar-light nav_styling text-light shadow rounded-bottom">
+                <p class="h4 mr-5 text-capitalize font-weight-bolder">Hello {{user.first_name}}</p>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link text-light" href="/m_m/home"><strong>Home</strong><span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="/m_m/home/edit">Edit</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="/m_m/home/add">Add</a>
+                        </li>
+                    </ul>
+                    <a class="nav-link text-light" href="/log_out">Logout</a>
+                </div>
+            </nav>
+
+            <div class="row mt-2">
+
+                <div class="col-4 mt-3">
+                    <div class="border p-2 box_styling">
+                        <div class="border box_styling p-2 shadow rounded-top">
+                            <p>Income:</p>
+                            <p>Expenses:</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-7 align-top mt-2">
+                    <div class="border m-2 p-2 card_box box_styling shadow rounded-top">
+                        <div class="border p-2 box_styling">
+                            <h4 class="ml-2 border-bottom font-weight-bolder">Expenses</h4>
+                            <ul class="list-group list-group-horizontal horizontal_scroll p-1">
+                                {% for expense in all_expenses %}
+                                <li class="list-group-item m-1 border-0 card_styling">
+                                    <div class="card list-group-item shadow" style="max-width: 18rem;">
+                                        <div class="card-header text-center"><a class="h5 text-white text-capitalize font-weight-bolder" href="/m_m/home/edit_expense/{{expense.id}}">{{expense.name}}</a></div>
+                                        <div class="card-body">
+                                            <h6 class="card-title text-center text-secondary">Due Date: {{expense.due_date}}</h6>
+                                            <p class="card-text text-center text-secondary">{{expense.amount}}</p>
+                                            <form action="/m_m/home/paid/{{expense.id}}" method="POST" class="text-center">
+                                                {% csrf_token %}
+                                                <button type="submit" class="text-dark rounded-top  shadow">Pay</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border m-2 p-2 card_box box_styling shadow rounded-top">
+                        <div class="border p-2 box_styling">
+                            <h4 class="ml-2 border-bottom font-weight-bolder">Income</h4>
+                            <ul class="list-group list-group-horizontal horizontal_scroll">
+                                {% for income in all_incomes %}
+                                <li class="list-group-item m-1 border-0 card_styling">
+                                    <div class="card list-group-item shadow" style="max-width: 18rem;">
+                                        <div class="card-header text-center font-weight-bolder"><a class="text-white text-capitalize" href="/m_m/home/edit_income/{{income.id}}">{{income.name}}</a></div>
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center text-secondary">Earn Date: {{income.earn_date}}</h5>
+                                            <p class="card-text text-center text-secondary">{{income.amount}}</p>
+                                            <form action="/m_m/home/earned/{{income.id}}" method="POST" class="text-center">
+                                                {% csrf_token %}
+                                                <button type="submit" class="text-dark rounded-top shadow">Log</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if messages %} {% for message in messages %} {% if message.tags == 'error' %}
+            <div class="alert toast ml-auto">
+                <div class="toast-header">
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
+                </div>
+                <div class="toast-body">
+                    {{message}}
+                </div>
+            </div>
+            {% endif %} {% endfor %} {% endif %}
+        </div>
+</body>
+
+</html>

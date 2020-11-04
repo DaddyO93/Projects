@@ -23,7 +23,7 @@ def register (request):
             pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
             new_user = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=pw_hash)
             request.session['user_id'] = new_user.id
-            return redirect ("/")
+            return redirect ('/m_m/home')
     else:
         return redirect ('/')
 
@@ -36,7 +36,7 @@ def login (request):
             logged_user = user[0]
             if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
                 request.session['user_id'] = logged_user.id
-                return redirect ('/belt/home')
+                return redirect ('/m_m/home')
             else:
                 messages.error(request, "Your Email or Password are incorrect!")
                 return redirect ('/')
@@ -49,4 +49,4 @@ def success_screen (request):
         messages.error(request, "You need to register or log in!")
         return redirect ('/')
     else:
-        return redirect ('/')
+        return redirect ('/m_m/home')

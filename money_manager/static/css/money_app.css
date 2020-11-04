@@ -1,0 +1,17 @@
+/* .body_background {
+    background-image: radial-gradient(#F8F9FA, #E9ECEF, #DEE2E6, #6C757D);
+    background-repeat: no-repeat;
+} */
+
+.horizontal_scroll {
+    overflow-x: auto;
+}
+
+.card_box {
+    height: 400px;
+    width: 100%;
+}
+
+.notesArea {
+    width: 100%;
+}
