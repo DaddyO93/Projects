@@ -45,93 +45,107 @@
                 </div>
             </nav>
 
-            <div class="row">
+            <div class="row justify-content-center">
+
                 <div class="col-5">
+                    <div class="border p-2 box_styling m-3">
+                        <div class="border p-3 box_styling shadow rounded-top">
 
-                    <form action="/m_m/home/select_category" method="POST" class="post-form">
-                        {% csrf_token %}
-                        <div class="input-group m-3">
-                            <div class="input-group-prepend col-4">
-                                <label class="input-group-text m-1 border-0 bg-transparent  text_color align-middle" for="category">Category</label>
-                            </div>
-                            <select class="custom-select col-5 shadow" name="category" id="category">
-                            <option class="text-black-50 text-capitalize" selected>{{category}}</option>
-                            <option value="income">Income</option>
-                            <option value="expense">Expense</option>
-                            <option value="savings">Saving</option>
-                        </select>
-                            <div class="input-group-append col-3">
-                                <button type="submit" class="btn btn-secondary round-right shadow align-middle">Select</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <form action="/m_m/home/edit_select" method="POST" class="post-form">
-                        {% csrf_token %}
-                        <div class="input-group m-3">
-                            <div class="input-group-prepend col-4">
-                                <label class="input-group-text m-1 border-0 bg-transparent  text_color" for="category">Item</label>
-                            </div>
-                            <select class="custom-select col-5 shadow" name="item" id="item">
-                                <option selected>Choose...</option>
-                                {% for item in all_items %}
-                                <option value="{{item.id}}"><a class="text-capitalize" href="/m_m/home/edit_select/{{item.id}}">{{item.name}}</a></option>
-                                {% endfor %}
-                            </select>
-                            <div class="input-group-append col-3">
-                                <button type="submit" class="btn btn-secondary round-right">Select</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <div class="border p-2 box_styling">
-                        <div class="border p-3 card_box box_styling shadow rounded-top">
-                            <form action="" method="POST" class="post-form">
-                                <div class="input-group m-3">
-                                    <div class="input-group-prepend col-5">
-                                        <label class="input-group-text m-1 border-0 bg-transparent  text_color" for="category">Category</label>
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-4">
+                                    <label class="input-group-text m-1 border-0 bg-transparent text_color" for="category">Category</label>
+                                </div>
+                                <div class="dropdown col-5 card_background rounded-right text-dark">
+                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{category}}</span>
+                                    <div class="text-dark dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/select_category/1">Income</a>
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/select_category/2">Expense</a>
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/select_category/3">Saving</a>
                                     </div>
-                                    <input type="text" class="form-control text-capitalize border-top-0 border-left-0 border-right-0 rounded-0 col-6 shadow" aria-label="category" aria-describedby="category" name="category" id="category" value="{{category}}">
+                                </div>
+                            </div>
+
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-4">
+                                    <span class="input-group-text m-1 border-0 bg-transparent  text_color" id="name">Name</span>
                                 </div>
 
-                                <div class="input-group m-3">
-                                    <div class="input-group-prepend col-5">
-                                        <span class="input-group-text m-1 border-0 bg-transparent  text_color" id="name">Name</span>
+                                <div class="dropdown col-5 card_background rounded-right text-dark">
+                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{display_item.name}}</span>
+                                    <div class="text-dark dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        {% for item in all_items %} {% if item.category == category %}
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/edit_item/{{item.id}}">{{item.name}} <strong>Due: </strong>{{item.due_date}}</a> {% endif %}{% endfor %}
                                     </div>
-                                    <input type="text" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 col-6 text-capitalize shadow" aria-label="name" aria-describedby="name" name="name" id="name" value="{{display_item.name}}">
                                 </div>
-
-                                <div class="input-group m-3">
-                                    <div class="input-group-prepend col-5">
-                                        <span class="input-group-text m-1 border-0 bg-transparent  text_color" id="amount">Amount $</span>
-                                    </div>
-                                    <input type="text" class="form-control border-top-0  text-capitalize border-left-0 border-right-0 rounded-0 col-6 shadow" aria-label="amount" aria-describedby="amount" name="amount" id="amount" value="{{display_item.amount}}">
-                                </div>
-
-                                <div class="input-group m-3">
-                                    <div class="input-group-prepend col-5">
-                                        <span class="input-group-text m-1 border-0 bg-transparent  text_color" id="frequency">Frequency (days)</span>
-                                    </div>
-                                    <input type="text" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 col-6 text-capitalize shadow" aria-label="frequency" aria-describedby="frequency" name="frequency" id="frequency" value="{{display_item.frequency}}">
-                                </div>
-
-                                <div class="input-group col-11 float-right">
-                                    <button type="submit" class=" float-right ml-4 m-1 text-dark rounded-top shadow bg-success">Update</button>
-                            </form>
-
-                            <form action="/m_m/home/delete/{{display_item.id}}" method="POST" class="post-form">
-                                {% csrf_token %}
-                                <button type="submit" class=" float-right m-1 text-dark rounded-top shadow bg-danger">Delete</button>
-                            </form>
                             </div>
+
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-4">
+                                    <span class="input-group-text m-1 border-0 bg-transparent  text_color" id="amount">Amount $</span>
+                                </div>
+                                <input type="text" class="form-control border-top-0 text-capitalize border-left-0 border-right-0 rounded-right col-5 shadow card_background" aria-label="amount" aria-describedby="amount" name="amount" id="amount" value="{{display_item.amount}}">
+                            </div>
+
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-4">
+                                    <span class="input-group-text m-1 border-0 bg-transparent text_color" id="frequency">Frequency</span>
+                                </div>
+                                <select class="custom-select col-5" name="frequency" id="frequency">
+                                    <option value="{{display_item.frequency}}">
+                                        {% if display_item.frequency == 7 %}
+                                        Weekly
+                                        {% endif %}                                        
+                                        {% if display_item.frequency == 14 %}
+                                        Bi-weekly
+                                        {% endif %}                                        
+                                        {% if display_item.frequency == 1 %}
+                                        Monthly
+                                        {% endif %}
+                                        {% if display_item.frequency == 0 %}
+                                        One-time
+                                        {% endif %}
+                                    </option>
+                                    <option class="text-secondary" value="7">Weekly</option>
+                                    <option class="text-secondary" value="14">Bi-Weekly</option>
+                                    <option class="text-secondary" value="1">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-4">
+                                    <label class="input-group-text col-3 m-1 border-0 bg-transparent text_color" for="note">Note</label>
+                                </div>
+                                <textarea class="form-control rounded-right col-5 shadow card_background" aria-label="note" name="note">{{display_item.note}}</textarea>
+                            </div>
+
+                            {% if disable_buttons == False %}
+                            <div class="input-group justify-content-center">
+                                <div class="prepend">
+                                    <form action="/m_m/home/update_single/{{display_item.id}}" method="POST" class="post-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="m-2 text-dark rounded-top shadow bg-success button_width">Update Single</button>
+                                    </form>
+                                </div>
+
+                                <div class="append">
+                                    <form action="/m_m/home/update_future/{{display_item.id}}" method="POST" class="post-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="m-2 text-dark rounded-top shadow bg-success button_width">Update Future</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="input-group justify-content-center">
+                                <button type="button" data-toggle="modal" class="m-2 rounded-top shadow danger_button button_width append" data-target="#selector_modal">Delete</button>
+                            </div>
+                            {% endif %}
 
                         </div>
                     </div>
                 </div>
 
-                <div class="col-6 mt-3">
+                <div class="col-5 mt-3">
                     <div class="border p-2 box_styling">
-                        <div class="border box_styling p-4 shadow history_box">
+                        <div class="border box_styling p-4 shadow history_box overflow-auto">
                             <table class="table overflow-auto bg-secondary text-light shadow">
                                 <thead>
                                     <th scope="col">Name</th>
@@ -139,31 +153,90 @@
                                     <th scope="col">Date</th>
                                 </thead>
                                 <tbody>
-                                    {% for history_item in item_history.all %}
+                                    {% for history_item in all_items %} {% if history_item.category == category %}
                                     <tr class="row_stripe">
-                                        <td>{{history_item.name}}</td>
-                                        <td>{{history_item.amount}}</td>
-                                        <td>{{history_item.updated_at}}</td>
+                                        <td>
+                                            <a class="dropdown-item text-capitalize text-light" href="/m_m/home/edit_item/{{history_item.id}}">{{history_item.name}}</a>
+                                        </td>
+                                        <td class="text-capitalize">{{history_item.amount}}</td>
+                                        <td class="text-capitalize">{{history_item.updated_at}}</td>
                                     </tr>
-                                    {% endfor %}
+                                    {% endif %}{% endfor %}
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="border box_styling shadow mt-1">
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-5">
+                                    <label class="input-group-text m-1 border-0 bg-transparent text_color" for="category">History Category</label>
+                                </div>
+                                <div class="dropdown col-4 card_background rounded-right text-dark">
+                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{category}}</span>
+                                    <div class="text-dark dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/select_category/1">Income</a>
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/select_category/2">Expense</a>
+                                        <a class="text-secondary dropdown-item" href="/m_m/home/select_category/3">Saving</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% if messages %} {% for message in messages %} {% if message.tags == 'error' %}
-            <div class="alert toast ml-auto">
-                <div class="toast-header">
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
-                </div>
-                <div class="toast-body ">
-                    {{message}}
+        </div>
+        <!-- modal -->
+        <div class="modal fade" id="selector_modal">
+            <div class="modal-dialog">
+                <div class="modal-content card_background">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title text-dark">Delete Selection</h4>
+                    </div>
+
+                    <div class="input-group ml-5">
+                        <div class="prepend">
+                            <form action="/m_m/home/delete_single/{{display_item.id}}" method="POST" class="post-form">
+                                {% csrf_token %}
+                                <button type="submit" class="m-2 rounded-top shadow danger_button button_width">Delete Single</button>
+                            </form>
+                        </div>
+
+                        <div class="append">
+                            <form action="/m_m/home/delete_future/{{display_item.id}}" method="POST" class="post-form">
+                                {% csrf_token %}
+                                <button type="submit" class="m-2 rounded-top shadow danger_button button_width">Delete Future</button>
+                            </form>
+                        </div>
+
+                        <div class="append">
+                            <form action="/m_m/home/delete_all/{{display_item.id}}" method="POST" class="post-form">
+                                {% csrf_token %}
+                                <button type="submit" class="m-2 rounded-top shadow danger_button button_width">Delete All</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="text-light rounded-top shadow bg-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
-            {% endif %} {% endfor %} {% endif %}
         </div>
+
+        {% if messages %} {% for message in messages %} {% if message.tags == 'error' %}
+        <div class="alert toast ml-auto">
+            <div class="toast-header">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
+            </div>
+            <div class="toast-body text-dark">
+                {{message}}
+            </div>
+        </div>
+        {% endif %} {% endfor %} {% endif %}
     </div>
+
+
 </body>
 
 </html>

@@ -18,6 +18,9 @@
             });
             $('.toast').toast('show');
 
+            $('#short_term').click(function() {
+                $('#short_term_stuff').show();
+            })
         });
     </script>
 </head>
@@ -45,24 +48,23 @@
                 </div>
             </nav>
 
-            <div class="row m-4">
-                <div class="col-7 mx-auto border box_styling p-2 shadow rounded-top">
-                    <div class="border p-2 box_styling">
-                        <h4 class="ml-4">Add Item</h4>
-
-                        <form action="/m_m/home/add_item" method="POST" class="post-form">
-                            {% csrf_token %}
+            <form action="/m_m/home/add_item" method="POST" class="post-form">
+                {% csrf_token %}
+                <div class="row m-4">
+                    <div class="col-7 mx-auto border box_styling p-2 shadow rounded-top">
+                        <div class="border p-2 box_styling">
+                            <h4 class="ml-4">Add Item</h4>
 
                             <div class="input-group m-3">
                                 <div class="input-group-prepend col-4">
                                     <label class="input-group-text m-1 border-0 bg-transparent text_color" for="category">Category</label>
                                 </div>
                                 <select class="custom-select col-7" name="category" id="category">
-                            <option selected> </option>
-                            <option value="income">Income</option>
-                            <option value="expense">Expense</option>
-                            <option value="savings">Saving</option>
-                        </select>
+                                    <option selected>Choose...</option>
+                                    <option class="text-capitalize text-secondary" value="income">Income</option>
+                                    <option class="text-capitalize text-secondary" value="expense">Expense</option>
+                                    <option class="text-capitalize text-secondary" value="savings">Saving</option>
+                                </select>
                             </div>
 
                             <div class="input-group m-3 ">
@@ -91,93 +93,84 @@
                                     <label class="input-group-text m-1 border-0 bg-transparent text_color" for="duration">Duration</label>
                                 </div>
 
-                                <div class="btn-group btn-group-toggle shadow" role="group" aria-label="button-group">
-                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ongoing">Ongoing</button>
-                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#short_term">Short-term</button>
-                                    <button type="button" class="btn btn-secondary">One-time</button>
+                                <div class="btn-group btn-group-toggle shadow" data-toggle="buttons">
+                                    <label class="btn btn-secondary active">
+                                      <input type="radio" data-toggle="modal" data-target="#selector_modal">Ongoing</label>
+                                    <label class="btn btn-secondary">
+                                      <input type="radio" data-toggle="modal" data-target="#selector_modal" id="short_term">Short Term</label>
+                                    <label class="btn btn-secondary">
+                                      <input type="radio">One-time</label>
                                 </div>
                             </div>
+
+                            <div class="input-group m-3">
+                                <div class="input-group-prepend col-4">
+                                    <label class="input-group-text col-3 m-1 border-0 bg-transparent text_color" for="note">Note</label>
+                                </div>
+                                <textarea class="form-control rounded-right col-7 shadow" aria-label="note" name="note"></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" class="mr-4 mb-2 text-dark rounded-top shadow float-right">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- frequency modal -->
-                    <div class="modal fade" id="ongoing">
-
+                    <!-- modal -->
+                    <div class="modal fade" id="selector_modal">
                         <div class="modal-dialog">
-                            <div class="modal-content">
+                            <div class="modal-content card_background">
+
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Select Frequency</h4>
+                                    <h4 class="modal-title text-dark">Selections</h4>
                                 </div>
+
                                 <div class="modal-body">
                                     <div class="input-group m-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text m-1 border-0 bg-transparent" id="frequency ">Frequency</span>
+                                            <span class="input-group-text m-1 border-0 bg-transparent">Frequency</span>
                                         </div>
-                                        <select class="custom-select col-8 " name="frequency" id="frequency">
-                                            <option selected value="7">Weekly</option>
-                                            <option value="14">Bi-Weekly</option>
-                                            <option value="1">Monthly</option>
+                                        <select class="custom-select col-8" name="frequency">
+                                            <option value="0"> </option>
+                                            <option class="text-secondary" value="7">Weekly</option>
+                                            <option class="text-secondary" value="14">Bi-Weekly</option>
+                                            <option class="text-secondary" value="1">Monthly</option>
                                         </select>
                                     </div>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- end date modal -->
-                        <div class="modal fade" id="short_term">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Select End Date</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="input-group m-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text m-1 border-0 bg-transparent" id="frequency">Frequency</span>
-                                            </div>
-                                            <select class="custom-select col-8" name="frequency" id="frequency">
-                                            <option selected value="7">Weekly</option>
-                                            <option value="14">Bi-Weekly</option>
-                                            <option value="1">Monthly</option>
-                                        </select>
-                                        </div>
-
-                                        <div class="input-group m-3">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text m-1 border-0 bg-transparent text-right" for="end_date">End Date</label>
-                                                <input type="date" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 col-8" aria-label="end_date" aria-describedby="end_date" name="end_date" id="end_date">
-                                            </div>
+                                    <div class="input-group m-3" id="short_term_stuff">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text m-1 border-0 bg-transparent text-right text-dark" for="end_date">End Date</label>
+                                            <input type="date" class="form-control border-top-0 border-left-0 border-right-0 rounded-0 col-8" aria-label="end_date" aria-describedby="end_date" name="end_date">
                                         </div>
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                                        <button type="button" class="text-light rounded-top shadow bg-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="text-light rounded-top shadow bg-secondary" data-dismiss="modal">Save</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <button type="submit" class="float-right mr-5 mb-2 text-dark rounded-top shadow">Submit</button>
-                        </form>
                     </div>
-                </div>
+
+            </form>
             </div>
         </div>
+
         {% if messages %} {% for message in messages %} {% if message.tags == 'error' %}
         <div class="alert toast ml-auto">
             <div class="toast-header">
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
             </div>
-            <div class="toast-body">
+            <div class="toast-body text-dark">
                 {{message}}
             </div>
         </div>
         {% endif %} {% endfor %} {% endif %}
-    </div>
+
+</body>
 
 </html>

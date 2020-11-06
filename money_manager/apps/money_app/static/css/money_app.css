@@ -5,12 +5,7 @@
 
 .body_background {
     background-image: radial-gradient(#FFFFFF 5%, #c0c0c0);
-    background-color: #BC6C25;
     background-repeat: no-repeat;
-}
-
-.horizontal_scroll {
-    overflow-x: auto;
 }
 
 .box_styling {
@@ -25,7 +20,7 @@
     background-color: #284B63;
 }
 
-.card {
+.card_background {
     background-image: radial-gradient(#FFFFFF 5%, #D9D9D9);
 }
 
@@ -34,7 +29,12 @@
 }
 
 .card_box {
-    height: 600px;
+    height: 350px;
+    width: 100%;
+}
+
+.card_box2 {
+    height: 330px;
     width: 100%;
 }
 
@@ -43,7 +43,7 @@
 }
 
 table .row_stripe:nth-child(odd) {
-    background-color: lightgray;
+    background-color: #353535;
     color: #353535;
 }
 
@@ -56,6 +56,11 @@ table .row_stripe:nth-child(odd) {
     white-space: nowrap;
 }
 
-.card_box {
-    height: 345px;
+.button_width {
+    width: 130px;
+}
+
+.danger_button {
+    background-color: #772E25;
+    color: #D9D9D9;
 }

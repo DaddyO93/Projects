@@ -35,75 +35,89 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="mb-4 mt-5">Welcome to the Money Manager!</h1>
-        <span class="row">
-            <div class="col-4">
-            <form action="/register" method="POST" class="border p-3" id="regForm">
-                <p class="on_line">Registration</p>
-                {% csrf_token %}
-                <table>
-                    <tr>
-                        <td class="pr-3">First Name</td>
-                        <td><input type="text" name="first_name" id="first_name"></td>
-                    </tr>
-                    <tr>
-                        <td class="pr-3">Last Name</td>
-                        <td><input type="text" name="last_name" id="last_name"></td>
-                    </tr>
-                    <tr>
-                        <td class="pr-3">Email</td>
-                        <td><input type="email" name="email" id="email"></td>
-                    </tr>
-                    <tr>
-                        <td class="pr-3">Password</td>
-                        <td><input type="password" name="password" id="password"></td>
-                    </tr>
-                    <tr>
-                        <td class="pr-3">Confirm PW</td>
-                        <td><input type="password" name="pw_confirm" id="pw_confirm"></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><button type="submit" class="float_right">Register</button></td>
-                    </tr>
-                </table>
-            </form>
+    <div class="container-fluid min-vh-100 body_background">
+        <div class="container">
 
-        </div>
-        <div class="col-4 ml-3">
-            <form action="/login" method="POST" class="border p-3">
-                <p class="on_line">Login</p>
-                {% csrf_token %}
-                <table>
-                    <tr>
-                        <td class="pr-3">Email</td>
-                        <td><input type="email" name="email" id="email"></td>
-                    </tr>
-                    <tr>
-                        <td class="pr-3">Password</td>
-                        <td><input type="password" name="password" id="password"></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><button type="submit" class="float_right">Log In</button></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </span>
-    </div>
+            <div class="row justify-content-center">
+                <span class="navbar navbar-expand-lg navbar-light nav_styling text-light shadow rounded-bottom mb-3">
+                    <h1 class="mb-3 mt-2 ml-5 mr-5">Welcome to the Money Manager</h1>
+                </span>
 
-    {% if messages %} {% for message in messages %} {% if message.tags == 'error' %}
-    <div class="alert toast ml-auto">
-        <div class="toast-header">
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
+                <div class="row justify-content-center">
+                    <div class="border p-2 box_styling m-2 col">
+                        <div class="border p-3 box_styling shadow rounded-top">
+                            <form action="/register" method="POST" class="border p-3" id="regForm">
+                                <h4>Create Account</h4>
+                                {% csrf_token %}
+                                <table class="ml-4">
+                                    <tr>
+                                        <td class="pr-3">First Name</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="text" name="first_name" id="first_name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-3">Last Name</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="text" name="last_name" id="last_name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-3">Email</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="email" name="email" id="email"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-3">Password</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="password" name="password" id="password"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-3">Confirm PW</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="password" name="pw_confirm" id="pw_confirm"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><button type="submit" class="text-dark rounded-top">Register</button></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+
+                    <span class="col">
+                    <div class="border p-2 box_styling m-2">
+                        <div class="border p-3 box_styling shadow rounded-top">
+                            <form action="/login" method="POST" class="border p-3">
+                                <h4>Log into Account</h4>
+                                {% csrf_token %}
+                                <table class="ml-4">
+                                    <tr>
+                                        <td class="pr-3">Email</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="email" name="email" id="email"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-3">Password</td>
+                                        <td><input class=" border-top-0 text-capitalize border-left-0 border-right-0 rounded-0 shadow" type="password" name="password" id="password"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><button type="submit" class="text-dark rounded-top">Log In</button></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        </span>
+                </div>
+            </div>
         </div>
-        <div class="toast-body">
-            {{message}}
+
+
+        {% if messages %} {% for message in messages %} {% if message.tags == 'error' %}
+        <div class="alert toast ml-auto">
+            <div class="toast-header">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
+            </div>
+            <div class="toast-body">
+                {{message}}
+            </div>
         </div>
+        {% endif %} {% endfor %} {% endif %}
     </div>
-    {% endif %} {% endfor %} {% endif %}
 
 </body>
 
