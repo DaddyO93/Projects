@@ -42,7 +42,8 @@
                             <a class="nav-link text-light" href="/m_m/home/add">Add</a>
                         </li>
                     </ul>
-                    <a class="nav-link text-light" href="/log_out">Logout</a>
+                    <a class="nav-link text-light mr-5" href="/log_out">Logout</a>
+                    <p class="nav-link text-light mb-0"><strong>{{today | date:"F d Y"}}</strong></p>
                 </div>
             </nav>
 
@@ -51,12 +52,25 @@
                 <div class="col-4 mt-3">
                     <div class="border p-2 box_styling rounded-top">
                         <div class="border box_styling p-2 shadow rounded-top">
-                            <p class="p-3"><strong>Total Difference to Date:</strong> ${{total_difference}}</p>
-                            <p><strong>Finances this Month:</strong></p>
-                            <p class="ml-2">Income: ${{income_this_month}}</p>
-                            <p class="ml-2">Expenses: ${{expense_this_month}}</p>
-                            <p class="border-bottom ml-2">Savings: ${{savings_this_month}}</p>
-                            <p class="ml-2">Remainder: ${{remainder}}</p>
+                            <div class="row">
+                                <div class="row">
+                                    <p class="ml-5 mb-1"><strong>Total Difference to Date:</strong> ${{total_difference}}</p>
+                                    <p class="ml-5"><strong>Total in Savings to Date:</strong> ${{total_deposited}}</p>
+                                    <p class="ml-5 mb-1"><strong>Projected Finances for {{today | date:"F"}}:</strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="ml-2">${{income_this_month}}</p>
+                                    <p class="ml-2">$-{{expense_this_month}}</p>
+                                    <p class="border-bottom ml-2">$-{{savings_this_month}}</p>
+                                    <p class="ml-2"><strong>${{remainder}}</strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="">Income</p>
+                                    <p class="">Expenses</p>
+                                    <p class="border-bottom">Savings</p>
+                                    <p><strong>Remainder</strong></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -74,15 +88,15 @@
                             <h4 class="ml-2 border-bottom font-weight-bolder">Expenses</h4>
                             <ul class="list-group list-group-horizontal horizontal_scroll p-1">
                                 {% for expense in all_items %}{% if expense.category == "expense" %}
-                                <li class="list-group-item m-1 border-0 card_styling">
-                                    <div class="card list-group-item shadow" style="max-width: 18rem;">
+                                <li class="list-group-item m-1 card_styling">
+                                    <div class="{% if expense.due_date < today %} border border-danger {% else %} border-0 {% endif %} card list-group-item shadow card_background" style="max-width: 18rem;">
                                         <div class="card-header text-center"><a class="h5 text-white text-capitalize font-weight-bolder" href="/m_m/home/edit_item/{{expense.id}}">{{expense.name}}</a></div>
                                         <div class="card-body">
-                                            <h6 class="card-title text-center text-secondary">Due Date: {{expense.due_date}}</h6>
+                                            <h6 class="card-title text-center text-secondary {% if expense.due_date < today %} text-danger {% endif %}">Due Date: {{expense.due_date}}</h6>
                                             <p class="card-text text-center text-secondary">${{expense.amount}}</p>
                                             <form action="/m_m/home/logged/{{expense.id}}" method="POST" class="text-center">
                                                 {% csrf_token %}
-                                                <button type="submit" class="text-dark rounded-top  shadow">Pay</button>
+                                                <button type="submit" class="{% if expense.due_date < today %} border border-danger {% endif %} text-dark rounded-top  shadow">Pay</button>
                                             </form>
                                         </div>
                                     </div>
@@ -97,8 +111,8 @@
                             <h4 class="ml-2 border-bottom font-weight-bolder">Income</h4>
                             <ul class="list-group list-group-horizontal horizontal_scroll">
                                 {% for income in all_items %} {% if income.category == "income" %}
-                                <li class="list-group-item m-1 border-0 card_styling">
-                                    <div class="card list-group-item shadow" style="max-width: 18rem;">
+                                <li class="{% if expense.due_date < today %} border border-warning {% endif %} list-group-item m-1 border-0 card_styling">
+                                    <div class="card list-group-item shadow card_background" style="max-width: 18rem;">
                                         <div class="card-header text-center font-weight-bolder"><a class="text-white text-capitalize" href="/m_m/home/edit_item/{{income.id}}">{{income.name}}</a></div>
                                         <div class="card-body">
                                             <h5 class="card-title text-center text-secondary">Earn Date: {{income.due_date}}</h5>

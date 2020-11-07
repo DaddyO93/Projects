@@ -41,7 +41,8 @@
                             <a href="/m_m/home/add" class="nav-link text-light">Add</a>
                         </li>
                     </ul>
-                    <a class="nav-link text-light" href="/log_out">Logout</a>
+                    <a class="nav-link text-light mr-5" href="/log_out">Logout</a>
+                    <p class="nav-link text-light mb-0"><strong>{{today | date:"F d Y"}}</strong></p>
                 </div>
             </nav>
 
@@ -56,7 +57,7 @@
                                     <label class="input-group-text m-1 border-0 bg-transparent text_color" for="category">Category</label>
                                 </div>
                                 <div class="dropdown col-5 card_background rounded-right text-dark">
-                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{category}}</span>
+                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0 mt-1" dropdownMenuOffset>{{category}}</span>
                                     <div class="text-dark dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="text-secondary dropdown-item" href="/m_m/home/select_category/1">Income</a>
                                         <a class="text-secondary dropdown-item" href="/m_m/home/select_category/2">Expense</a>
@@ -67,11 +68,11 @@
 
                             <div class="input-group m-3">
                                 <div class="input-group-prepend col-4">
-                                    <span class="input-group-text m-1 border-0 bg-transparent  text_color" id="name">Name</span>
+                                    <span class="input-group-text m-1 border-0 bg-transparent text_color" id="name">Name</span>
                                 </div>
 
                                 <div class="dropdown col-5 card_background rounded-right text-dark">
-                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{display_item.name}}</span>
+                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="mt-1 dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{display_item.name}}</span>
                                     <div class="text-dark dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         {% for item in all_items %} {% if item.category == category %}
                                         <a class="text-secondary dropdown-item" href="/m_m/home/edit_item/{{item.id}}">{{item.name}} <strong>Due: </strong>{{item.due_date}}</a> {% endif %}{% endfor %}
@@ -143,7 +144,7 @@
                     </div>
                 </div>
 
-                <div class="col-5 mt-3">
+                <div class="col-6 mt-3">
                     <div class="border p-2 box_styling">
                         <div class="border box_styling p-4 shadow history_box overflow-auto">
                             <table class="table overflow-auto bg-secondary text-light shadow">
@@ -152,16 +153,16 @@
                                     <th scope="col">Amount</th>
                                     <th scope="col">Date</th>
                                 </thead>
-                                <tbody>
-                                    {% for history_item in all_items %} {% if history_item.category == category %}
+                                <tbody class="overflow-auto">
+                                    {% for history_item in all_items %}{% if history_item.category == category %}{% if history_item.logged == True %}
                                     <tr class="row_stripe">
                                         <td>
                                             <a class="dropdown-item text-capitalize text-light" href="/m_m/home/edit_item/{{history_item.id}}">{{history_item.name}}</a>
                                         </td>
-                                        <td class="text-capitalize">{{history_item.amount}}</td>
-                                        <td class="text-capitalize">{{history_item.updated_at}}</td>
+                                        <td class="text-capitalize">${{history_item.amount}}</td>
+                                        <td class="text-capitalize">{{history_item.updated_at | date:"M d Y"}}</td>
                                     </tr>
-                                    {% endif %}{% endfor %}
+                                    {% endif %}{% endif %}{% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -172,7 +173,7 @@
                                     <label class="input-group-text m-1 border-0 bg-transparent text_color" for="category">History Category</label>
                                 </div>
                                 <div class="dropdown col-4 card_background rounded-right text-dark">
-                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0" dropdownMenuOffset>{{category}}</span>
+                                    <span id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-header btn dropdown-toggle text-capitalize border-0 mt-1" dropdownMenuOffset>{{category}}</span>
                                     <div class="text-dark dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="text-secondary dropdown-item" href="/m_m/home/select_category/1">Income</a>
                                         <a class="text-secondary dropdown-item" href="/m_m/home/select_category/2">Expense</a>

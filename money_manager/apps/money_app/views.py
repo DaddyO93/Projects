@@ -20,7 +20,7 @@ def home (request):
 
         # Create lists of items: all non-paid, and due 7 days past and 14 days in future
         all_items = []
-        for item in Item.objects.all():
+        for item in Item.objects.all().order_by("due_date"):
             if item.logged==False and len(item.name)>0:
                 if item.due_date<(today+timedelta(days=14)):
                     all_items.append(item)
@@ -39,12 +39,12 @@ def home (request):
             total_income += object.amount
         for object in deposited_items:
             total_deposited += object.amount
-        total_difference = (total_income-total_expenses) + total_deposited 
+        total_difference = total_income-(total_expenses + total_deposited)
                       
         due_this_month = []  
         everything = Item.objects.all()
         for item in everything:
-            if item.due_date.month == today.month:
+            if item.due_date.month == today.month and item.due_date.year == today.year:
                 due_this_month.append(item)
         
         expense_this_month=0
@@ -70,7 +70,8 @@ def home (request):
             'expense_this_month':expense_this_month,         
             'income_this_month':income_this_month,         
             'savings_this_month':savings_this_month,   
-            'remainder':remainder,      
+            'remainder':remainder, 
+            'today':today,     
         }
         return render (request,'money_app/home.html', context)
     
@@ -79,8 +80,10 @@ def add(request):
         messages.error(request, "You must be logged in!")
         return redirect ('/')
     else:
+        today = date.today()
         context = {
-            "user": User.objects.get(id=request.session['user_id'])
+            "user": User.objects.get(id=request.session['user_id']),
+            "today":today,
         }
         return render (request, 'money_app/add.html', context)
 
@@ -89,7 +92,6 @@ def add_item(request):
         messages.error(request, "You must be logged in!")
         return redirect ('/')
     else:
-        print("validator issue")
         if request.method =='POST':
             errors = Item.objects.basicValidator(request.POST)
             if len(errors)>0:
@@ -112,13 +114,13 @@ def add_item(request):
                 else:
                     end_date = end_date
                 
-                messages.error(request, f"Adding first occurence of {request.POST['name']}")
+                messages.error(request, f"Adding first occurence of {request.POST['name']} {request.POST['category']}")
                 new_item = Item.objects.create(user=user, category=request.POST['category'], name=request.POST['name'], amount=amount, due_date=due_date, end_date=end_date, frequency=frequency, logged=False, note=request.POST['note'])
                 
                 # Create all occurances until end date as long as frequency greater than 0
                 loops=0
                 if frequency>0:
-                    messages.error(request, f"Adding future occurances of {request.POST['name']}")
+                    messages.error(request, f"Adding future occurances of {request.POST['name']} {request.POST['category']}")
                     # adding next recurrence of item
                     def time_adder(due_date, frequency):
                         if frequency==1:
@@ -149,7 +151,7 @@ def add_item(request):
                         # Add future due date to future item
                         new_item = Item.objects.create(user=user, category=request.POST['category'], name=request.POST['name'], amount=amount, due_date=due_date, end_date=end_date, frequency=frequency, logged=False, note=request.POST['note'])
                         loops+=1
-                    messages.error(request, f"New {new_item.name} added!") 
+                    messages.error(request, f"New {new_item.name} {request.POST['category']} added!") 
             return redirect ('/m_m/home/add')
     
 def log_item(request, id):
@@ -169,10 +171,12 @@ def edit(request):
         messages.error(request, "You must be logged in!")
         return redirect ('/')
     else:   
+        today = date.today()
         context = {
             'user':User.objects.get(id=request.session['user_id']),
-            'all_items':Item.objects.all(),
-            'category':request.session['category']
+            'all_items':Item.objects.all().order_by("due_date"),
+            'category':request.session['category'],
+            "today":today
         }
         return render(request, 'money_app/edit.html', context)
     
@@ -201,7 +205,7 @@ def edit_item(request, id):
         disable_buttons=False
         context = {
             'user':User.objects.get(id=request.session['user_id']),
-            'all_items':Item.objects.all(),
+            'all_items':Item.objects.all().order_by("due_date"),
             'category':request.session['category'],
             'display_item':display_item,
             'disable_buttons':disable_buttons,

@@ -44,7 +44,8 @@
                             <a class="nav-link text-light" href="/m_m/home/add"><strong>Add</strong><span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
-                    <a class="nav-link text-light" href="/log_out">Logout</a>
+                    <a class="nav-link text-light mr-5" href="/log_out">Logout</a>
+                    <p class="nav-link text-light mb-0"><strong>{{today | date:"F d Y"}}</strong></p>
                 </div>
             </nav>
 
@@ -95,7 +96,7 @@
 
                                 <div class="btn-group btn-group-toggle shadow" data-toggle="buttons">
                                     <label class="btn btn-secondary active">
-                                      <input type="radio" data-toggle="modal" data-target="#selector_modal">Ongoing</label>
+                                      <input type="radio" data-toggle="modal" data-target="#selector_modal" disabled>Ongoing</label>
                                     <label class="btn btn-secondary">
                                       <input type="radio" data-toggle="modal" data-target="#selector_modal" id="short_term">Short Term</label>
                                     <label class="btn btn-secondary">
@@ -170,6 +171,7 @@
             </div>
         </div>
         {% endif %} {% endfor %} {% endif %}
+    </div>
 
 </body>
 
